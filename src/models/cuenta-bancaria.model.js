@@ -143,7 +143,7 @@ class CuentaBancaria {
     
         const fechaActual = new Date()
 
-        if (fechaActual.getTime() < fechaCierre.getTime()) {
+        if (fechaCierre.getTime() >= fechaActual.getTime() ) {
             return false
         }
 
