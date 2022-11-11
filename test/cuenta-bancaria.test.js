@@ -1,4 +1,4 @@
-const CuentaBancaria = require( '../models/cuenta-bancaria.model')
+const CuentaBancaria = require( '../src/cuenta-bancaria.model')
 
 test('1. Retiro de monto tipo cuenta sueldo', () => {
 
