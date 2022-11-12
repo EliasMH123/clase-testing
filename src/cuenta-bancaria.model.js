@@ -2,36 +2,37 @@ const Transaccion = require('./transaccion.model')
 
 class CuentaBancaria {
 
-    CUENTA_SUELDO     = '1'
-    CUENTA_AHORRO     = '2'
-    CUENTA_PLAZO_FIJO = '3'
+    CUENTA_SUELDO       = '1'
+    CUENTA_AHORRO       = '2'
+    CUENTA_PLAZO_FIJO   = '3'
+    MAX_CANTIDAD_CUENTA = 11
     
     constructor(numCuenta, saldoInicial, fechaCierre, tipo) {
 
-        this.numCuenta     = this.completarNumCuenta( numCuenta )
-        this.tipo          = tipo
-        this.saldo         = saldoInicial
+        this.numCuenta     = this.validarNumCuenta( numCuenta )
+        this.fechaCierre   = this.parsearFecha( fechaCierre )
         this.fechaCreacion = new Date()
-        this.fechaCierre   = this.parsearFecha(fechaCierre)
         this.movimientos   = [ ]
         this.error         = ''
+        this.tipo          = tipo
+        this.saldo         = saldoInicial
     
     }
 
     parsearFecha = fechaCierre => {
-        const pars = new Date(fechaCierre)
+        const pars = new Date( fechaCierre )
         return new Date( pars )
     }
 
-    completarNumCuenta = numCuenta => {
+    validarNumCuenta = numCuenta => {
 
-        if (numCuenta.length > 11) {
-            return numCuenta.substring(0,11)
+        if (numCuenta.length > this.MAX_CANTIDAD_CUENTA) {
+            return numCuenta.substring(0, this.MAX_CANTIDAD_CUENTA)
         }
         
-        if (numCuenta.length < 11) {
+        if (numCuenta.length < this.MAX_CANTIDAD_CUENTA) {
             
-            const cantidad = 11 - numCuenta.length
+            const cantidad = this.MAX_CANTIDAD_CUENTA - numCuenta.length
 
             for(let i = 0; i < cantidad; i++) {
                 numCuenta += '0'
