@@ -23,13 +23,11 @@ class CuentaBancaria {
     
     }
 
-    verSaldo = () => {
-        return Number( this.saldo.toFixed( 2 ) )
-    }
+    verSaldo     = () => Number( this.saldo.toFixed( 2 ) )
 
-    contarMov = () => {
-        return this.movimientos.length
-    }
+    contarMov    = () => this.movimientos.length
+    
+    verNumCuenta = () => this.numCuenta
 
     listarMovimiento = () => {
         this.movimientos.forEach( movimiento => {

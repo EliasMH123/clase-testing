@@ -45,7 +45,7 @@ describe('B. Pruebas de atributos: ', () => {
         cuentaBancaria = new CuentaBancaria('19145678', 50, null, '2')
         
         expect(
-            cuentaBancaria.numCuenta
+            cuentaBancaria.verNumCuenta()
         ).toBe( '19145678000' )
     
     })
@@ -55,7 +55,7 @@ describe('B. Pruebas de atributos: ', () => {
         cuentaBancaria = new CuentaBancaria('1914567890145', 90, null, '2')
     
         expect(
-            cuentaBancaria.numCuenta
+            cuentaBancaria.verNumCuenta()
         ).toBe( '19145678901' )
     
     })
@@ -80,7 +80,9 @@ describe('C. Pruebas de despositos: ', () => {
     
         cuentaBancaria = new CuentaBancaria('19145678901', 90, null, '2')
     
-        cuentaBancaria.registrarDeposito('Descripción de pruebas!', 20)
+        expect(
+            cuentaBancaria.registrarDeposito('Descripción de pruebas!', 20)
+        ).toBe( true )
         
         expect(
             cuentaBancaria.verSaldo()
