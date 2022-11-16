@@ -1,3 +1,7 @@
+const {
+    parsearFecha,
+    validarCuentaPlazoFijo
+}                 = require('./helpers/cuenta-bancaria.helper')
 const Transaccion = require('./transaccion.model')
 
 class CuentaBancaria {
@@ -10,7 +14,7 @@ class CuentaBancaria {
     constructor(numCuenta, saldoInicial, fechaCierre, tipo) {
 
         this.numCuenta     = this.validarNumCuenta( numCuenta )
-        this.fechaCierre   = this.parsearFecha( fechaCierre )
+        this.fechaCierre   = parsearFecha( fechaCierre )
         this.fechaCreacion = new Date()
         this.movimientos   = [ ]
         this.error         = ''
@@ -19,36 +23,8 @@ class CuentaBancaria {
     
     }
 
-    parsearFecha = fechaCierre => {
-        const pars = new Date( fechaCierre )
-        return new Date( pars )
-    }
-
-    validarNumCuenta = numCuenta => {
-
-        if (numCuenta.length > this.MAX_CANTIDAD_CUENTA) {
-            return numCuenta.substring(0, this.MAX_CANTIDAD_CUENTA)
-        }
-        
-        if (numCuenta.length < this.MAX_CANTIDAD_CUENTA) {
-            
-            const cantidad = this.MAX_CANTIDAD_CUENTA - numCuenta.length
-
-            for(let i = 0; i < cantidad; i++) {
-                numCuenta += '0'
-            }
-
-            return numCuenta
-
-        }
-
-        return numCuenta
-
-    }
-
-    versSaldo = () => {
-        console.log(`Usted tiene un saldo de ${this.saldo} soles.`)
-        return this.saldo
+    verSaldo = () => {
+        return Number( this.saldo.toFixed( 2 ) )
     }
 
     contarMov = () => {
@@ -56,10 +32,9 @@ class CuentaBancaria {
     }
 
     listarMovimiento = () => {
-        console.log(`Mostrando movimientos...`)
-        movimientos.forEach( movimiento => {
+        this.movimientos.forEach( movimiento => {
             const result = movimiento.listarDetalle()
-            console.log( result )
+            console.log(result)
         })
     }
 
@@ -73,7 +48,7 @@ class CuentaBancaria {
 
             if (this.tipo === this.CUENTA_PLAZO_FIJO) {
 
-                const isPlazoFijo = this.validarCuentaPlazoFijo( this.fechaCierre )
+                const isPlazoFijo = validarCuentaPlazoFijo( this.fechaCierre )
                 
                 if (!isPlazoFijo) {
                     return false
@@ -82,7 +57,6 @@ class CuentaBancaria {
             }          
 
             if (this.saldo < Number( monto )) {
-                console.log(`No puede retirar la sgte cantidad: ${ monto }, ya que usted tiene un saldo de ${ this.saldo }...`)
                 return false
             }
 
@@ -112,7 +86,7 @@ class CuentaBancaria {
             
             if (this.tipo === this.CUENTA_PLAZO_FIJO) {
 
-                const isPlazoFijo = this.validarCuentaPlazoFijo( this.fechaCierre )
+                const isPlazoFijo = validarCuentaPlazoFijo( this.fechaCierre )
                 
                 if (!isPlazoFijo) {
                     return false
@@ -140,15 +114,25 @@ class CuentaBancaria {
 
     }
 
-    validarCuentaPlazoFijo = fechaCierre => {
-    
-        const fechaActual = new Date()
+    validarNumCuenta = numCuenta => {
 
-        if (fechaCierre.getTime() >= fechaActual.getTime() ) {
-            return false
+        if (numCuenta.length > this.MAX_CANTIDAD_CUENTA) {
+            return numCuenta.substring(0, this.MAX_CANTIDAD_CUENTA)
+        }
+        
+        if (numCuenta.length < this.MAX_CANTIDAD_CUENTA) {
+            
+            const cantidad = this.MAX_CANTIDAD_CUENTA - numCuenta.length
+
+            for(let i = 0; i < cantidad; i++) {
+                numCuenta += '0'
+            }
+
+            return numCuenta
+
         }
 
-        return true
+        return numCuenta
 
     }
 

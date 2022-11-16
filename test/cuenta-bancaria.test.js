@@ -19,7 +19,7 @@ describe('A. Pruebas de retiro: ', () => {
         cuentaBancaria = new CuentaBancaria('19145678901', 50, null, '2')
     
         expect(
-            cuentaBancaria.registrarRetiro('Orueba de retiro para la upeu.', 20)
+            cuentaBancaria.registrarRetiro('Prueba de retiro para la upeu.', 20)
         ).toBe( false )
     
     })
@@ -29,7 +29,7 @@ describe('A. Pruebas de retiro: ', () => {
         cuentaBancaria = new CuentaBancaria('19145678901', 50, '2022/12/09', '3')
     
         expect(
-            cuentaBancaria.registrarRetiro('Depositar lo que sea para mi ama pe', 20)
+            cuentaBancaria.registrarRetiro('Retirar para fortalezón!', 20)
         ).toBe( false )
     
     })
@@ -71,7 +71,7 @@ describe('C. Pruebas de despositos: ', () => {
         cuentaBancaria = new CuentaBancaria('19145678901', 50, '2022/11/08', '3')
     
         expect(
-            cuentaBancaria.registrarDeposito('Depositar lo que sea para mi ama pe', 40)
+            cuentaBancaria.registrarDeposito('Depósito para sacar ganancias y poder salir de Latam.', 40)
         ).toBe( true )
     
     })
@@ -80,16 +80,46 @@ describe('C. Pruebas de despositos: ', () => {
     
         cuentaBancaria = new CuentaBancaria('19145678901', 90, null, '2')
     
-        cuentaBancaria.registrarDeposito('Depositar lo que sea para mi ama pe', 20)
+        cuentaBancaria.registrarDeposito('Descripción de pruebas!', 20)
         
         expect(
-            cuentaBancaria.saldo
+            cuentaBancaria.verSaldo()
         ).toBe( 110 )
     
     })
 })
 
+describe('( 8 ): Flujo completo', () => {
 
+    const cuentaBancaria = new CuentaBancaria('19145678901', 50, '2022/10/08', '3')
+    
+    test('- Validar deposito correcto', () => {        
+        expect(
+            cuentaBancaria.registrarDeposito('Haciendo el deposito de parte de la suggar', 19000.60)
+        ).toBe( true )
+
+    })
+
+    test('- Validar retiro correcto', () => {        
+        expect(
+            cuentaBancaria.registrarRetiro('Retirando para pagar una macbook', 15000.10)
+        ).toBe( true )
+
+    })
+
+    test('- Ver saldo despues de transacciones', () => {
+        expect(
+            cuentaBancaria.verSaldo()
+        ).toBe( 4050.50 )
+    })
+
+    test('- Cantidad de movimientos', () => {
+        expect(
+            cuentaBancaria.contarMov()
+        ).toBe( 2 )
+    })
+
+})
 
 
 
