@@ -6,10 +6,12 @@ const Transaccion = require('./transaccion.model')
 
 class CuentaBancaria {
 
-    CUENTA_SUELDO       = '1'
-    CUENTA_AHORRO       = '2'
-    CUENTA_PLAZO_FIJO   = '3'
-    MAX_CANTIDAD_CUENTA = 11
+    CUENTA_SUELDO        = '1'
+    CUENTA_AHORRO        = '2'
+    CUENTA_PLAZO_FIJO    = '3'
+    MAX_CANTIDAD_CUENTA  = 11
+    TRANSACCION_RETIRO   = 'S'
+    TRANSACCION_DEPOSITO = 'D'
     
     constructor(numCuenta, saldoInicial, fechaCierre, tipo) {
 
@@ -41,6 +43,7 @@ class CuentaBancaria {
         try {
             
             if (this.tipo === this.CUENTA_AHORRO) {
+                this.error = 'Una cuenta de ahorro no puede retirar dinero!'
                 return false
             }
 
@@ -49,6 +52,7 @@ class CuentaBancaria {
                 const isPlazoFijo = validarCuentaPlazoFijo( this.fechaCierre )
                 
                 if (!isPlazoFijo) {
+                    this.error = `Aún no puede retirar dinero hasta que pase la fecha sgte: ${ this.fechaCierre }`
                     return false
                 }
             
@@ -62,7 +66,7 @@ class CuentaBancaria {
 
             transaccion.detalle = detalle
             transaccion.monto   = Number( monto )
-            transaccion.tipo    = 'S'
+            transaccion.tipo    = this.TRANSACCION_RETIRO
 
             this.movimientos.push( transaccion )
 
@@ -87,6 +91,7 @@ class CuentaBancaria {
                 const isPlazoFijo = validarCuentaPlazoFijo( this.fechaCierre )
                 
                 if (!isPlazoFijo) {
+                    this.error = `Aún no puede depositar dinero hasta que pase la fecha sgte: ${ this.fechaCierre }`
                     return false
                 }
             
@@ -96,7 +101,7 @@ class CuentaBancaria {
 
             transaccion.detalle = detalle
             transaccion.monto   = Number( monto )
-            transaccion.tipo    = 'E'
+            transaccion.tipo    = this.TRANSACCION_DEPOSITO
 
             this.movimientos.push( transaccion )
 
