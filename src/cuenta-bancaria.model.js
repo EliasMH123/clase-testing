@@ -1,19 +1,27 @@
+const Transaccion = require('./transaccion.model')
+const {
+    CUENTA_SUELDO,
+    CUENTA_AHORRO,
+    CUENTA_PLAZO_FIJO,
+    MAX_CANTIDAD_CUENTA,
+    TRANSACCION_RETIRO,
+    TRANSACCION_DEPOSITO,
+    REGEX_NUM_CUENTA,
+    TIPO_CUENTAS
+}                 = require('./helpers/constantes.helper')
 const {
     parsearFecha,
     validarCuentaPlazoFijo
 }                 = require('./helpers/cuenta-bancaria.helper')
-const Transaccion = require('./transaccion.model')
 
 class CuentaBancaria {
-
-    CUENTA_SUELDO        = '1'
-    CUENTA_AHORRO        = '2'
-    CUENTA_PLAZO_FIJO    = '3'
-    MAX_CANTIDAD_CUENTA  = 11
-    TRANSACCION_RETIRO   = 'S'
-    TRANSACCION_DEPOSITO = 'D'
     
-    constructor(numCuenta = '1', saldoInicial, fechaCierre, tipo) {
+    constructor(
+        numCuenta    = '1', 
+        saldoInicial = 0.0,
+        fechaCierre,
+        tipo
+    ) {
 
         this.numCuenta     = this.validarNumCuenta( numCuenta )
         this.fechaCierre   = parsearFecha( fechaCierre )
@@ -26,9 +34,7 @@ class CuentaBancaria {
     }
 
     verSaldo     = () => Number( this.saldo.toFixed( 2 ) )
-
     contarMov    = () => this.movimientos.length
-    
     verNumCuenta = () => this.numCuenta
 
     listarMovimiento = () => {
@@ -42,12 +48,12 @@ class CuentaBancaria {
 
         try {
             
-            if (this.tipo === this.CUENTA_AHORRO) {
+            if (this.tipo === CUENTA_AHORRO) {
                 this.error = 'Una cuenta de ahorro no puede retirar dinero!'
                 return false
             }
 
-            if (this.tipo === this.CUENTA_PLAZO_FIJO) {
+            if (this.tipo === CUENTA_PLAZO_FIJO) {
 
                 const isPlazoFijo = validarCuentaPlazoFijo( this.fechaCierre )
                 
@@ -67,14 +73,13 @@ class CuentaBancaria {
 
             transaccion.detalle = detalle
             transaccion.monto   = Number( monto )
-            transaccion.tipo    = this.TRANSACCION_RETIRO
+            transaccion.tipo    = TRANSACCION_RETIRO
 
             this.movimientos.push( transaccion )
 
             this.saldo -= monto.toFixed(2)
 
         } catch( error ) {
-            console.log('Oops, ocurrio un error al hacer la transaccion...')
             this.error = error
             return false
         }
@@ -87,7 +92,7 @@ class CuentaBancaria {
 
         try {
             
-            if (this.tipo === this.CUENTA_PLAZO_FIJO) {
+            if (this.tipo === CUENTA_PLAZO_FIJO) {
 
                 const isPlazoFijo = validarCuentaPlazoFijo( this.fechaCierre )
                 
@@ -102,14 +107,13 @@ class CuentaBancaria {
 
             transaccion.detalle = detalle
             transaccion.monto   = Number( monto )
-            transaccion.tipo    = this.TRANSACCION_DEPOSITO
+            transaccion.tipo    = TRANSACCION_DEPOSITO
 
             this.movimientos.push( transaccion )
 
             this.saldo += monto
 
         } catch( error ) {
-            console.log('Oops, ocurrio un error al hacer la transaccion...')
             this.error = error
             return false
         }
@@ -120,13 +124,13 @@ class CuentaBancaria {
 
     validarNumCuenta = numCuenta => {
 
-        if (numCuenta.length > this.MAX_CANTIDAD_CUENTA) {
+        if (numCuenta.length > MAX_CANTIDAD_CUENTA) {
             return numCuenta.substring(0, this.MAX_CANTIDAD_CUENTA)
         }
         
-        if (numCuenta.length < this.MAX_CANTIDAD_CUENTA) {
+        if (numCuenta.length < MAX_CANTIDAD_CUENTA) {
             
-            const cantidad = this.MAX_CANTIDAD_CUENTA - numCuenta.length
+            const cantidad = MAX_CANTIDAD_CUENTA - numCuenta.length
 
             for(let i = 0; i < cantidad; i++) {
                 numCuenta += '0'
@@ -142,10 +146,8 @@ class CuentaBancaria {
 
     validarCreacionTipoCuenta = tipo => {
 
-        const tiposCuenta = [ '1', '2', '3' ]
-
-        if ( !tiposCuenta.includes( tipo ) ) {
-            this.error = 'No existe este tipo de cuenta, no se puede crear'
+        if ( !TIPO_CUENTAS.includes( tipo ) ) {
+            this.error = 'Error al crear tipo de cuenta'
             throw new Error('Error al crear tipo de cuenta')
         }
 

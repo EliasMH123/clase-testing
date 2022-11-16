@@ -60,6 +60,15 @@ describe('B. Pruebas de atributos: ', () => {
     
     })
 
+    test('9. Validacion de atributos', () => {
+
+        cuentaBancaria = new CuentaBancaria('KA3333333', 90, null, '2')
+
+        expect(
+            cuentaBancaria.error
+        ).toBe('Error al crear tipo de cuenta')
+    })
+
 })
 
 describe('C. Pruebas de despositos: ', () => {
