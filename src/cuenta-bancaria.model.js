@@ -13,7 +13,7 @@ class CuentaBancaria {
     TRANSACCION_RETIRO   = 'S'
     TRANSACCION_DEPOSITO = 'D'
     
-    constructor(numCuenta, saldoInicial, fechaCierre, tipo) {
+    constructor(numCuenta = '1', saldoInicial, fechaCierre, tipo) {
 
         this.numCuenta     = this.validarNumCuenta( numCuenta )
         this.fechaCierre   = parsearFecha( fechaCierre )
@@ -59,6 +59,7 @@ class CuentaBancaria {
             }          
 
             if (this.saldo < Number( monto )) {
+                this.error = 'El saldo que desea retirar es inferiro al que sea retirar!'
                 return false
             }
 
@@ -137,6 +138,17 @@ class CuentaBancaria {
 
         return numCuenta
 
+    }
+
+    validarCreacionTipoCuenta = tipo => {
+
+        const tiposCuenta = [ 1, 2, 3 ]
+
+        if ( !tiposCuenta.includes( tipo ) ) {
+            this.error = 'No existe este tipo de cuenta, no se puede crear'
+            throw 'Error al crear tipo de cuenta'
+        }
+        
     }
 
 }
