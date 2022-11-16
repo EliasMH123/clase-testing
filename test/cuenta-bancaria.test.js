@@ -9,7 +9,7 @@ describe('A. Pruebas de retiro: ', () => {
         cuentaBancaria = new CuentaBancaria('19145678901', 50, null, '1')
     
         expect(
-            cuentaBancaria.registrarRetiro('Depositar lo que sea para mi ama pe', 100)
+            cuentaBancaria.registrarRetiro('Quiero retirar para mi chifon!', 100)
         ).toBe( false )
     
     })
@@ -19,7 +19,7 @@ describe('A. Pruebas de retiro: ', () => {
         cuentaBancaria = new CuentaBancaria('19145678901', 50, null, '2')
     
         expect(
-            cuentaBancaria.registrarRetiro('Depositar lo que sea para mi ama pe', 20)
+            cuentaBancaria.registrarRetiro('Orueba de retiro para la upeu.', 20)
         ).toBe( false )
     
     })
