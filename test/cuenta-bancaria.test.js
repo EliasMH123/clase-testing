@@ -99,14 +99,12 @@ describe('( 8 ): Flujo completo', () => {
         expect(
             cuentaBancaria.registrarDeposito('Haciendo el deposito de parte de la suggar', 19000.60)
         ).toBe( true )
-
     })
 
     test('- Validar retiro correcto', () => {        
         expect(
             cuentaBancaria.registrarRetiro('Retirando para pagar una macbook', 15000.10)
         ).toBe( true )
-
     })
 
     test('- Ver saldo despues de transacciones', () => {
@@ -122,6 +120,3 @@ describe('( 8 ): Flujo completo', () => {
     })
 
 })
-
-
-

@@ -17,10 +17,10 @@ class CuentaBancaria {
 
         this.numCuenta     = this.validarNumCuenta( numCuenta )
         this.fechaCierre   = parsearFecha( fechaCierre )
+        this.tipo          = this.validarCreacionTipoCuenta( tipo )
         this.fechaCreacion = new Date()
         this.movimientos   = [ ]
         this.error         = ''
-        this.tipo          = tipo
         this.saldo         = saldoInicial
     
     }
@@ -142,12 +142,14 @@ class CuentaBancaria {
 
     validarCreacionTipoCuenta = tipo => {
 
-        const tiposCuenta = [ 1, 2, 3 ]
+        const tiposCuenta = [ '1', '2', '3' ]
 
         if ( !tiposCuenta.includes( tipo ) ) {
             this.error = 'No existe este tipo de cuenta, no se puede crear'
-            throw 'Error al crear tipo de cuenta'
+            throw new Error('Error al crear tipo de cuenta')
         }
+
+        return tipo
         
     }
 

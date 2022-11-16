@@ -1,0 +1,19 @@
+describe('(new) Validacion de errores creaciones cuenta', () => {
+    test('- Tipo cuenta 4', () => {
+
+        /* try {
+
+            const cuentaBancaria = new CuentaBancaria('2345678', 50, undefined, '3')
+
+            cuentaBancaria.verSaldo()
+        
+        } catch( error ) {
+            expect(error.message).toBe('Error al crear tipo de cuenta')
+        } */
+
+        expect(() => {
+            const cuentaBancaria = new CuentaBancaria('2345678', 50, undefined, '3')
+        }).toBe(new Error('Error al crear tipo de cuenta'))
+        
+    })
+})

@@ -1,5 +1,7 @@
 const CuentaBancaria = require('./src/cuenta-bancaria.model')
 
-const cuentaBancaria = new CuentaBancaria(undefined, 50, undefined, '1')
+const cuentaBancaria = new CuentaBancaria('2345678', 50, undefined, '3')
 
-console.log( cuentaBancaria.verNumCuenta() );
+const result = cuentaBancaria.verNumCuenta()
+
+console.log({ result });
