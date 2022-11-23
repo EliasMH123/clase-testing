@@ -62,7 +62,7 @@ describe('B. Pruebas de atributos: ', () => {
 
     test('9. Validación solo numeros', () => {
         expect(() => {
-                cuentaBancaria = new CuentaBancaria('KA3333333', 90, null, '2')
+                cuentaBancaria = new CuentaBancaria('KA/3333333', 90, null, '2')
         }).toThrowError('No puedes crear cuenta bancaria con caracteres alfabeticos.')
     })
 
@@ -70,6 +70,13 @@ describe('B. Pruebas de atributos: ', () => {
         expect(() => {
             cuentaBancaria = new CuentaBancaria('1234', 90, null, '4')
         }).toThrowError('Error al crear tipo de cuenta.')
+    })
+
+    test('11. Cuando el saldo esta en cero no se retirará', () => {
+        cuentaBancaria = new CuentaBancaria('12345678912', 0, null, '1')
+        expect( 
+            cuentaBancaria.registrarRetiro('Pa mi vieja', 50)
+        ).toBe(false)
     })
 
 })

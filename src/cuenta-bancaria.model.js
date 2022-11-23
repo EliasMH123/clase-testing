@@ -68,7 +68,7 @@ class CuentaBancaria {
                 return false
             }
 
-            const transaccion   = new Transaccion()
+            const transaccion  = new Transaccion()
 
             transaccion.build({ 
                 detalle, 
