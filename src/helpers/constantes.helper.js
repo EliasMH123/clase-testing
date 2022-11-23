@@ -4,7 +4,7 @@ const CUENTA_PLAZO_FIJO    = '3'
 const MAX_CANTIDAD_CUENTA  = 11
 const TRANSACCION_RETIRO   = 'S'
 const TRANSACCION_DEPOSITO = 'D'
-const REGEX_NUM_CUENTA     = '/^[0-9]*$/'
+const REGEX_NUM_CUENTA     = /^[0-9]*$/
 const TIPO_CUENTAS         = [ '1', '2', '3' ]
 
 module.exports = {

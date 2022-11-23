@@ -1,13 +1,6 @@
 class Transaccion {
 
-    constructor(detalle, tipo, monto) {
-
-        this.fecha   = new Date()
-        this.detalle = detalle
-        this.tipo    = tipo
-        this.monto   = monto
-        
-    }
+    constructor() { this.fecha = new Date() }
 
     listarDetalle = ( transaccion ) => {
         return `
@@ -17,6 +10,13 @@ class Transaccion {
             Monto:   ${transaccion.monto}
         `
     }
+
+    build({ detalle, tipo, monto }) {
+        this.detalle = detalle
+        this.tipo    = tipo
+        this.monto   = monto
+    }
+
 }
 
 module.exports = Transaccion

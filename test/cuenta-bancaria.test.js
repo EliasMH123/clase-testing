@@ -60,13 +60,16 @@ describe('B. Pruebas de atributos: ', () => {
     
     })
 
-    test('9. Validacion de atributos', () => {
+    test('9. Validación solo numeros', () => {
+        expect(() => {
+                cuentaBancaria = new CuentaBancaria('KA3333333', 90, null, '2')
+        }).toThrowError('No puedes crear cuenta bancaria con caracteres alfabeticos.')
+    })
 
-        cuentaBancaria = new CuentaBancaria('KA3333333', 90, null, '2')
-
-        expect(
-            cuentaBancaria.error
-        ).toBe('Error al crear tipo de cuenta')
+    test('10. Validación creación de solo los 3 tipo de cuentas', () => {
+        expect(() => {
+            cuentaBancaria = new CuentaBancaria('1234', 90, null, '4')
+        }).toThrowError('Error al crear tipo de cuenta.')
     })
 
 })
@@ -127,5 +130,9 @@ describe('( 8 ): Flujo completo', () => {
             cuentaBancaria.contarMov()
         ).toBe( 2 )
     })
+
+})
+
+describe('Pruebas faltantes por los compañeros!', () => {
 
 })

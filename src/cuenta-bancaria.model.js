@@ -1,17 +1,16 @@
 const Transaccion = require('./transaccion.model')
 const {
-    CUENTA_SUELDO,
     CUENTA_AHORRO,
     CUENTA_PLAZO_FIJO,
     MAX_CANTIDAD_CUENTA,
     TRANSACCION_RETIRO,
     TRANSACCION_DEPOSITO,
-    REGEX_NUM_CUENTA,
     TIPO_CUENTAS
 }                 = require('./helpers/constantes.helper')
 const {
     parsearFecha,
-    validarCuentaPlazoFijo
+    validarCuentaPlazoFijo,
+    soloNumeros
 }                 = require('./helpers/cuenta-bancaria.helper')
 
 class CuentaBancaria {
@@ -71,9 +70,11 @@ class CuentaBancaria {
 
             const transaccion   = new Transaccion()
 
-            transaccion.detalle = detalle
-            transaccion.monto   = Number( monto )
-            transaccion.tipo    = TRANSACCION_RETIRO
+            transaccion.build({ 
+                detalle, 
+                tipo: TRANSACCION_RETIRO, 
+                monto: Number(monto)
+            })
 
             this.movimientos.push( transaccion )
 
@@ -105,9 +106,11 @@ class CuentaBancaria {
             
             const transaccion = new Transaccion()
 
-            transaccion.detalle = detalle
-            transaccion.monto   = Number( monto )
-            transaccion.tipo    = TRANSACCION_DEPOSITO
+            transaccion.build({ 
+                detalle, 
+                tipo: TRANSACCION_DEPOSITO, 
+                monto: Number(monto)
+            })
 
             this.movimientos.push( transaccion )
 
@@ -124,8 +127,13 @@ class CuentaBancaria {
 
     validarNumCuenta = numCuenta => {
 
+        if ( !soloNumeros( numCuenta ) ) {
+            this.error = 'No puedes crear cuenta bancaria con caracteres alfabeticos.'
+            throw new Error('No puedes crear cuenta bancaria con caracteres alfabeticos.')
+        }
+
         if (numCuenta.length > MAX_CANTIDAD_CUENTA) {
-            return numCuenta.substring(0, this.MAX_CANTIDAD_CUENTA)
+            return numCuenta.substring(0, MAX_CANTIDAD_CUENTA)
         }
         
         if (numCuenta.length < MAX_CANTIDAD_CUENTA) {
@@ -147,8 +155,8 @@ class CuentaBancaria {
     validarCreacionTipoCuenta = tipo => {
 
         if ( !TIPO_CUENTAS.includes( tipo ) ) {
-            this.error = 'Error al crear tipo de cuenta'
-            throw new Error('Error al crear tipo de cuenta')
+            this.error = 'Error al crear tipo de cuenta.'
+            throw new Error('Error al crear tipo de cuenta.')
         }
 
         return tipo
