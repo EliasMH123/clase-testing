@@ -140,28 +140,3 @@ describe('( 8 ): Flujo completo', () => {
     })
 
 })
-
-describe('[NEW] - Transferencias a cuentas bancarias', () => {
-    
-    const cuentaBancaria = new CuentaBancaria('74125896325', 650, null, '1')
-
-    test('1. Transferencia correcta', () => {
-
-        expect(
-            cuentaBancaria.transferencia('Toma pa tu panetón', 100, '11145678911')
-        ).toBe(true)
-
-        
-        const cuentaDestino = cuentas
-                                .find( cuenta => cuenta.numCuenta === '11145678911')
-
-        expect(cuentaDestino.saldo).toBe(110)
-
-    })
-
-    test('2. Transferencia incorrecta', () => {
-        expect(
-            cuentaBancaria.transferencia('Enviando pa los niños', 20, '11145678910')
-        ).toBe(false)
-    })
-})
