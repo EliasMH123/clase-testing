@@ -44,7 +44,7 @@ class Tarjeta {
             throw new Error('No puedes tener una tarjeta sin cuentas bancarias')
         }
 
-        return true
+        return cuentasBancarias
     }
 
 }
