@@ -169,28 +169,14 @@ class CuentaBancaria {
         const cuentaDestino = cuentas
                                     .find( cuenta => cuenta.numCuenta === destinatario)
 
+        console.log({cuentaDestino})
+
         if (cuentaDestino === undefined) {
             this.error = 'No existe la cuenta destino!'
             return false
         }
 
-        try {
-            
-            if (this.tipo === CUENTA_AHORRO) {
-                this.error = 'Una cuenta de ahorro no puede retirar dinero!'
-                return false
-            }
-
-            if (this.tipo === CUENTA_PLAZO_FIJO) {
-
-                const isPlazoFijo = validarCuentaPlazoFijo( this.fechaCierre )
-                
-                if (!isPlazoFijo) {
-                    this.error = `Aún no puede retirar dinero hasta que pase la fecha sgte: ${ this.fechaCierre }`
-                    return false
-                }
-            
-            }          
+        try {    
 
             if (this.saldo < Number( monto )) {
                 this.error = 'No cuenta con saldo suficiente!'
@@ -207,11 +193,19 @@ class CuentaBancaria {
 
             this.movimientos.push( transaccion )
 
-            this.saldo          -= monto.toFixed(2)
-            cuentaDestino.saldo += monto.toFixed(2)
+            this.saldo          -= Number(monto.toFixed(2))
+            cuentaDestino.saldo += Number(monto.toFixed(2))
+
+            console.log('Pasó por descuento de saldos')
+
+            cuentas
+                .map( cuenta => cuenta.numCuenta === destinatario ? { ...cuenta, ...cuentaDestino }:  cuenta )
 
         } catch( error ) {
+
             this.error = error
+
+            console.log({ error })
             return false
         }
 

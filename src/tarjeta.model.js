@@ -49,4 +49,4 @@ class Tarjeta {
 
 }
 
-model.exports = Tarjeta
+module.exports = Tarjeta
