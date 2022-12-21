@@ -12,6 +12,7 @@ const {
     validarCuentaPlazoFijo,
     soloNumeros
 }                 = require('./helpers/cuenta-bancaria.helper')
+const { cuentas } = require('./db/cuentas-bancarias.db')
 
 class CuentaBancaria {
     
@@ -164,7 +165,58 @@ class CuentaBancaria {
     }
 
     transferencia = (detalle, monto, destinatario) => {
-        
+
+        const cuentaDestino = cuentas
+                                    .find( cuenta => cuenta.numCuenta === destinatario)
+
+        if (cuentaDestino === undefined) {
+            this.error = 'No existe la cuenta destino!'
+            return false
+        }
+
+        try {
+            
+            if (this.tipo === CUENTA_AHORRO) {
+                this.error = 'Una cuenta de ahorro no puede retirar dinero!'
+                return false
+            }
+
+            if (this.tipo === CUENTA_PLAZO_FIJO) {
+
+                const isPlazoFijo = validarCuentaPlazoFijo( this.fechaCierre )
+                
+                if (!isPlazoFijo) {
+                    this.error = `Aún no puede retirar dinero hasta que pase la fecha sgte: ${ this.fechaCierre }`
+                    return false
+                }
+            
+            }          
+
+            if (this.saldo < Number( monto )) {
+                this.error = 'No cuenta con saldo suficiente!'
+                return false
+            }
+
+            const transaccion  = new Transaccion()
+
+            transaccion.build({ 
+                detalle, 
+                tipo: TRANSACCION_RETIRO, 
+                monto: Number(monto)
+            })
+
+            this.movimientos.push( transaccion )
+
+            this.saldo          -= monto.toFixed(2)
+            cuentaDestino.saldo += monto.toFixed(2)
+
+        } catch( error ) {
+            this.error = error
+            return false
+        }
+
+        return true       
+
     }
 
 }

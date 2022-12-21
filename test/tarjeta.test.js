@@ -1,1 +1,3 @@
-aqui hacer las pruebas pe
+const Tarjeta = require( '../src/tarjeta.model')
+
+describe('1. ')
