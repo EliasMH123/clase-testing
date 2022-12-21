@@ -1,12 +1,11 @@
 const { soloNumeros } = require('./helpers/cuenta-bancaria.helper')
 
 class Tarjeta {
-    
-    constructor(cliente, dni, numTarjeta, contrasenia, cuentasBancarias = []) {
+
+    constructor(cliente, numTarjeta, contrasenia, cuentasBancarias = []) {
         this.numTarjeta       = this.validarNumTarjeta(numTarjeta)
         this.cuentasBancarias = this.validarCuentasBancarias(cuentasBancarias)
         this.cliente          = cliente
-        this.dni              = dni
         this.contrasenia      = contrasenia
     }
 
@@ -15,7 +14,7 @@ class Tarjeta {
     
     iniciarSesion = (tarjeta, passw) => {
 
-        if ( this.numTarjeta !== tarjeta && this.contrasenia !== passw ) {
+        if ( this.numTarjeta !== tarjeta || this.contrasenia !== passw ) {
             return false
         }
 

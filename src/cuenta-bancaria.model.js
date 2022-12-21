@@ -169,8 +169,6 @@ class CuentaBancaria {
         const cuentaDestino = cuentas
                                     .find( cuenta => cuenta.numCuenta === destinatario)
 
-        console.log({cuentaDestino})
-
         if (cuentaDestino === undefined) {
             this.error = 'No existe la cuenta destino!'
             return false
@@ -196,16 +194,11 @@ class CuentaBancaria {
             this.saldo          -= Number(monto.toFixed(2))
             cuentaDestino.saldo += Number(monto.toFixed(2))
 
-            console.log('Pasó por descuento de saldos')
-
             cuentas
                 .map( cuenta => cuenta.numCuenta === destinatario ? { ...cuenta, ...cuentaDestino }:  cuenta )
 
         } catch( error ) {
-
             this.error = error
-
-            console.log({ error })
             return false
         }
 
