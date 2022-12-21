@@ -163,6 +163,10 @@ class CuentaBancaria {
         
     }
 
+    transferencia = (detalle, monto, destinatario) => {
+        
+    }
+
 }
 
 module.exports = CuentaBancaria

@@ -140,6 +140,6 @@ describe('( 8 ): Flujo completo', () => {
 
 })
 
-describe('Pruebas faltantes por los compañeros!', () => {
+describe('[NEW] - Transferencias a cuentas bancarias correcta', () => {
 
 })
